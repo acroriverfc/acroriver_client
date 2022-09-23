@@ -1,5 +1,6 @@
 import React from "react";
 import {useParams} from "react-router-dom";
+import {CardContainer, PlayerCard} from "../components/Card";
 
 const data = {
     66 : {
@@ -15,18 +16,12 @@ const data = {
 const Players = () => {
     const params = useParams();
     const player = data[params.backNum];
-
     return (
         <div>
-            <h1> 선수 </h1>
-            {player? (
-                <div>
-                    <h2>{player.name}</h2>
-                    <p>등번호 : {player.backNum}</p>
-                </div>
-            ) : (
-                <p>존재하지 않는 프로필</p>
-            )}
+            <CardContainer>
+                <PlayerCard/>
+                <PlayerCard/>
+            </CardContainer>
         </div>
     );
 };
