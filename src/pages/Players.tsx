@@ -2,6 +2,10 @@ import React from "react";
 import {useParams} from "react-router-dom";
 import {CardContainer, PlayerCard} from "../components/Card";
 
+type Player = {
+    name : string,
+    backNum : bigint
+}
 const data = {
     66 : {
         name : '정환우',
@@ -14,8 +18,6 @@ const data = {
 };
 
 const Players = () => {
-    const params = useParams();
-    const player = data[params.backNum];
     return (
         <div>
             <CardContainer>

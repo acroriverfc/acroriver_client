@@ -2,11 +2,17 @@ import React from "react";
 import './Header.css'
 import {Link} from "react-router-dom";
 
-const MenuItem = ({active, children, to}) => (
-    <div className="menu-item">
-        <Link to={to}>{children}</Link>
-    </div>
-)
+type Menu = {
+    to: string;
+    children: string;
+}
+const MenuItem = ({children, to}:Menu) => (
+    (
+        <div className="menu-item">
+            <Link to={to}>{children}</Link>
+        </div>
+    )
+);
 
 const Header = () => {
     return (

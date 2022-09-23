@@ -9,8 +9,7 @@ import Header from "./components/Header/Header";
 import HeaderContainer from "./components/Header/HeaderContainer";
 
 
-class App extends Component {
-  render() {
+const App : React.FC = () => {
     return (
         <div>
             <HeaderContainer/>
@@ -22,7 +21,6 @@ class App extends Component {
             </Routes>
         </div>
     );
-  }
 }
 
 export default App;
