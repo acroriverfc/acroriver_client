@@ -4,9 +4,9 @@ import Home from './pages/Home';
 import MatchDay from "./pages/MatchDay";
 import "./components/Header/Header.css"
 import Posts from "./pages/Posts";
-import Players from "./pages/Players";
-import Header from "./components/Header/Header";
+import Players from "./pages/player/Players";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import PlayerInfo from "./pages/player/PlayerInfo";
 
 
 const App : React.FC = () => {
@@ -18,6 +18,7 @@ const App : React.FC = () => {
                 <Route path="/matchDay" element={<MatchDay/>}/>
                 <Route path="/post" element={<Posts/>}/>
                 <Route path="/player" element={<Players/>}/>
+                <Route path="/player/:backNum" element={<PlayerInfo/>}/>
             </Routes>
         </div>
     );
