@@ -1,6 +1,7 @@
 import React from "react";
 import './Header.css'
 import {Link} from "react-router-dom";
+import styled from "styled-components";
 
 type Menu = {
     to: string;
@@ -9,16 +10,24 @@ type Menu = {
 const MenuItem = ({children, to}:Menu) => (
     (
         <div className="menu-item">
-            <Link to={to}>{children}</Link>
+            <StyledLink to={to}>{children}</StyledLink>
         </div>
     )
 );
 
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  &:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
+`
+
 const Header = () => {
     return (
         <div>
-            <div className="header">
-                Acroriver
+            <div className="header" >
+                <StyledLink to ='/'>Acroriver</StyledLink>
             </div>
             <div className="menu">
                 <MenuItem to='/'>홈</MenuItem>

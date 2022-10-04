@@ -26,19 +26,33 @@ const PlayerCard = styled(Link)`
   margin: 10px 10px;
   color: #61dafb;
   background-color: blue;
-  
+  position: relative;
   &:hover {
     background-color: blue;
     opacity: 30%;
   }
 `;
-
-const CardContainer = styled.div`
-  display: flex;
+const CardTextBox = styled.div`
+  width: 160px;
+  height: 40px;
+  font-size: 30px;
+  font-weight: 300;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+`
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   padding: 10px;
-  height: 200px;
   margin: 10px;
 `;
+
+const CardContainer = styled.div`
+  display: block;
+  content: "";
+  padding-bottom: 100%;
+`
 
 
 const Card = () => {
@@ -63,10 +77,18 @@ const Card = () => {
         return null;
 
     return (
-        <CardContainer>
+        <GridContainer>
             {players.map(player =>
-                <PlayerCard to={`/player/${player.backNum}`} key={player.backNum} />)}
-        </CardContainer>
+                <>
+                    <PlayerCard to={`/player/${player.backNum}`} key={player.backNum}>
+                        <CardTextBox>
+                        {player.backNum} {player.playerName}
+                    </CardTextBox>
+                    </PlayerCard>
+                    </>
+                   )
+            }
+        </GridContainer>
     )
 }
 
