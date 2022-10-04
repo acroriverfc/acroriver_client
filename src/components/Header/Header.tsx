@@ -27,7 +27,7 @@ const Header = () => {
     return (
         <div>
             <div className="header" >
-                <StyledLink to ='/'>Acroriver</StyledLink>
+                <StyledLink to ='/'>Acroriver FC</StyledLink>
             </div>
             <div className="menu">
                 <MenuItem to='/'>홈</MenuItem>

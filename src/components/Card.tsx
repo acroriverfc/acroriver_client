@@ -38,20 +38,17 @@ const CardTextBox = styled.div`
   font-size: 30px;
   font-weight: 300;
   text-align: center;
-  position: relative;
-  z-index: 2;
+  margin: 0px 10px;
 `
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   padding: 10px;
-  margin: 10px;
+  margin: 0px 10px;
 `;
 
 const CardContainer = styled.div`
-  display: block;
-  content: "";
-  padding-bottom: 100%;
+  display: grid;
 `
 
 
@@ -79,13 +76,13 @@ const Card = () => {
     return (
         <GridContainer>
             {players.map(player =>
-                <>
-                    <PlayerCard to={`/player/${player.backNum}`} key={player.backNum}>
-                        <CardTextBox>
+                <CardContainer key={player.backNum}>
+                    <PlayerCard to={`/player/${player.backNum}`} >
+                    </PlayerCard>
+                    <CardTextBox>
                         {player.backNum} {player.playerName}
                     </CardTextBox>
-                    </PlayerCard>
-                    </>
+                </CardContainer>
                    )
             }
         </GridContainer>

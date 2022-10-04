@@ -56,7 +56,6 @@ const PlayerInfo = () => {
             <li>포지션 : {player.position}</li>
             <li>등번호 : {player.backNum}</li>
             <li>선수 설명 : {player.description}</li>
-
         </div>
     );
 };
