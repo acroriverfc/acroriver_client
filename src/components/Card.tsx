@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {ReactEventHandler, SyntheticEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import PlayerInfo from "../pages/player/PlayerInfo";
 import axios from "axios";
-import {Simulate} from "react-dom/test-utils";
-import play = Simulate.play;
 
 type Player = {
     playerName : string,
@@ -21,28 +18,27 @@ type Player = {
 };
 
 const PlayerCard = styled(Link)`
-  height: 240px;
-  width: 160px;
-  margin: 10px 10px;
-  color: #61dafb;
-  background-color: blue;
-  position: relative;
+  display: flex;
+  height: 150px;
+  width: 120px;
+  margin: 10px 10px 0px;
+  justify-content: center;
+  align-items: center;
   &:hover {
-    background-color: blue;
     opacity: 30%;
   }
 `;
 const CardTextBox = styled.div`
-  width: 160px;
-  height: 40px;
-  font-size: 30px;
+  width: 120px;
+  height: 100%;
+  font-size: 20px;
   font-weight: 300;
   text-align: center;
   margin: 0px 10px;
 `
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   padding: 10px;
   margin: 0px 10px;
 `;
@@ -51,6 +47,14 @@ const CardContainer = styled.div`
   display: grid;
 `
 
+const CardImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`
+
+const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = "/img/person.png";
+};
 
 const Card = () => {
     const [players, setPlayers] = useState<[Player]>();
@@ -77,7 +81,12 @@ const Card = () => {
         <GridContainer>
             {players.map(player =>
                 <CardContainer key={player.backNum}>
-                    <PlayerCard to={`/player/${player.backNum}`} >
+                    <PlayerCard to={`/player/${player.backNum}`}>
+                        <CardImg
+                            src={player.imageUrl}
+                            onError={imageOnErrorHandler}
+                            alt='player image'
+                        />
                     </PlayerCard>
                     <CardTextBox>
                         {player.backNum} {player.playerName}
