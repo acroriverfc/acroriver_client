@@ -17,8 +17,8 @@ const App : React.FC = () => {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/matchDay" element={<MatchDay/>}/>
                 <Route path="/post" element={<Posts/>}/>
-                <Route path="/player" element={<Players/>}/>
-                <Route path="/player/:backNum" element={<PlayerInfo/>}/>
+                <Route path="/player/:position" element={<Players/>}/>
+                <Route path="/player/backNum/:backNum" element={<PlayerInfo/>}/>
             </Routes>
         </div>
     );

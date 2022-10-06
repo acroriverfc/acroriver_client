@@ -18,21 +18,12 @@ type Player = {
     imageUrl : string,
     description : string,
 };
-
-const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = "/img/person.png";
-};
-
-const ImageContainer = styled.div`
-  margin: 10px 0px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
+const H1 = styled.h1
 `
-const PlayerImg = styled.img`
-  height: 150px;
+  margin-left: 5px;
+  font-family: "Noto Sans Bold";
 `
+
 const PlayerInfo = () => {
     const {backNum} = useParams();
     const URL = 'http://localhost:8080/player/' + backNum;
@@ -63,9 +54,6 @@ const PlayerInfo = () => {
 
     return (
         <div>
-            <ImageContainer>
-                <PlayerImg src={player.imageUrl} onError={imageOnErrorHandler}/>
-            </ImageContainer>
             <Table playerName={player.playerName}
                    birthDate={player.birthDate}
                    height={player.height}
@@ -76,7 +64,7 @@ const PlayerInfo = () => {
                    position={player.position}
                    backNum={player.backNum}
                    imageUrl={player.imageUrl}/>
-            <h1>선수 설명</h1>
+            <H1>선수 소개</H1>
             {player.description}
         </div>
     );

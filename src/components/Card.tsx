@@ -1,6 +1,6 @@
 import React, {ReactEventHandler, SyntheticEvent, useEffect, useState} from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 
 type Player = {
@@ -29,6 +29,7 @@ const PlayerCard = styled(Link)`
   }
 `;
 const CardTextBox = styled.div`
+  font-family: "Noto Sans Regular";
   width: 120px;
   height: 100%;
   font-size: 20px;
@@ -52,15 +53,17 @@ const CardImg = styled.img`
   max-height: 100%;
 `
 
+
 const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = "/img/person.png";
 };
 
 const Card = () => {
+    const {position} = useParams();
     const [players, setPlayers] = useState<[Player]>();
-    const URL = 'http://localhost:8080/player/all'
-
+    const URL = 'http://localhost:8080/player/position/' + position;
     useEffect(() => {
+
         const fetchPlayers = async () => {
             try{
                 const response = await axios.get(URL);
@@ -72,16 +75,20 @@ const Card = () => {
         }
 
         fetchPlayers();
-    }, [])
 
-    if (!players)
+    }, [position])
+
+    if (!players) {
+        console.log("NULL")
         return null;
+    }
 
+    console.log(players)
     return (
         <GridContainer>
             {players.map(player =>
                 <CardContainer key={player.backNum}>
-                    <PlayerCard to={`/player/${player.backNum}`}>
+                    <PlayerCard to={`/player/backNum/${player.backNum}`}>
                         <CardImg
                             src={player.imageUrl}
                             onError={imageOnErrorHandler}
