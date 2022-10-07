@@ -24,6 +24,13 @@ const H1 = styled.h1
   font-family: "Noto Sans Bold";
 `
 
+const Div = styled.div`
+  font-family: "Noto Sans Regular";
+`
+
+const Description = styled.div`
+    margin: 5px 10px;
+`
 const PlayerInfo = () => {
     const {backNum} = useParams();
     const URL = 'http://localhost:8080/player/' + backNum;
@@ -53,7 +60,7 @@ const PlayerInfo = () => {
         return null;
 
     return (
-        <div>
+        <Div>
             <Table playerName={player.playerName}
                    birthDate={player.birthDate}
                    height={player.height}
@@ -65,8 +72,8 @@ const PlayerInfo = () => {
                    backNum={player.backNum}
                    imageUrl={player.imageUrl}/>
             <H1>선수 소개</H1>
-            {player.description}
-        </div>
+            <Description>{player.description}</Description>
+        </Div>
     );
 };
 

@@ -19,33 +19,36 @@ type Player = {
 
 const PlayerCard = styled(Link)`
   display: flex;
-  height: 150px;
+  height: 100%;
   width: 120px;
-  margin: 10px 10px 0px;
+  margin: 5px 5px 0px;
   justify-content: center;
   align-items: center;
   &:hover {
     opacity: 30%;
   }
 `;
-const CardTextBox = styled.div`
+const CardTextBox = styled(Link)`
   font-family: "Noto Sans Regular";
-  width: 120px;
-  height: 100%;
+  width: 100%;
   font-size: 20px;
   font-weight: 300;
+  margin: 5px 0px;
   text-align: center;
-  margin: 0px 10px;
+  color: black;
+  text-decoration: none;
+  display: block;
 `
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, 120px);
   margin: 0px 10px;
 `;
 
 const CardContainer = styled.div`
   display: grid;
+  width: 100%;
+  margin: 0px 10px;
 `
 
 const CardImg = styled.img`
@@ -95,7 +98,7 @@ const Card = () => {
                             alt='player image'
                         />
                     </PlayerCard>
-                    <CardTextBox>
+                    <CardTextBox to={`/player/backNum/${player.backNum}`}>
                         {player.backNum} {player.playerName}
                     </CardTextBox>
                 </CardContainer>
