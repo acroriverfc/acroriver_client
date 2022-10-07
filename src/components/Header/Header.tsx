@@ -15,21 +15,39 @@ const MenuItem = ({children, to}:Menu) => (
     )
 );
 
+const HeaderLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  &:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
+`
 const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
-  display: block;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   &:focus, &:hover, &:visited, &:link, &:active {
     text-decoration: none;
   }
 `
 
+const HeaderImg = styled.img`
+  height: 3rem;
+`
 const Header = () => {
 
     return (
         <div>
             <div className="header" >
-                <StyledLink to ='/'>Acroriver FC</StyledLink>
+                <HeaderLink to ='/'>
+                    <HeaderImg src='/img/acroriver.png'/>
+                    Acroriver FC
+                </HeaderLink>
             </div>
             <div className="menu">
                 <MenuItem to='/'>홈</MenuItem>
