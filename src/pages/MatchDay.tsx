@@ -1,14 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styled, {css} from "styled-components";
 import axios from "axios";
 import 'moment/locale/ko'
+
+import "../components/MatchInfo";
+import {
+    State, Box, Left, Date, Away, AwayGoals,
+    HomeGoals, Right, Stadium, ScoreContainer, MatchInfo, Select, NoMatch
+} from "../components/MatchInfo";
 interface select {
     value : string;
     key : string;
 }
-
-interface Props {
-    state: string
+type Match = {
+    matchId : number,
+    matchDate: string,
+    awayName : string,
+    stadium: string,
+    state: string,
+    goals: number,
+    awayGoals: number,
 }
 const MONTHS : select[] = [
     {value: "1월", key: "1"},
@@ -30,141 +41,23 @@ const YEARS : select[] = [
     {value:"2023년", key :"2023"}
 ]
 
-type Match = {
-    matchId : number,
-    matchDate: string,
-    awayName : string,
-    stadium: string,
-    state: string,
-    goals: number,
-    awayGoals: number,
+interface YearProps {
+    year: number,
+    setYear: Dispatch<SetStateAction<number>>
 }
-const Box = styled.li`
-  list-style: none;
-  height: 120px;
-  border: 1px solid black;
-  margin: 20px 10px;
-  width: 95%;
-  ${(props:Props) => props.state === "WIN" &&
-          css`
-            background-color: rgba(144,238,144,0.5);
-          `}
-  
-  ${(props:Props) => props.state === "LOSE" &&
-          css`
-            background-color: rgba(219,112,147,0.3);
-          `}
-  
-  ${(props:Props) => props.state === "DRAW" &&
-          css`
-            background-color: rgba(255,255,0,0.3);
-          `} 
-`
 
-const MatchInfo = styled.div`
-  display: flex;
-  height: 85px;
-`
-
-const Left = styled.li`
-  margin-top: 15px;
-  text-align: center;
-  list-style: none;
-  width: 90%;
-`
-
-const Right = styled.div`
-  margin-top: 15px;
-  display: flex;
-  width: 100%;
-`
-
-const Date = styled.div`
-  padding-top: 5px;
-  font-family: "Noto Sans Bold";
-  grid-row: 1/3;
-`
-
-const Stadium = styled.div`
-  font-family: "Noto Sans Regular";
-  font-size: 12px;
-  width: 100%;
-  padding-top: 3px;
-`
-const Away = styled.div`
-  font-family: "Noto Sans Medium";
-  padding-left: 5px;
-  font-size: 15px;
-  width: 80%;
-  text-align: right;
-  padding-top: 20px;
-`
-
-const ScoreContainer = styled.div`
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  padding-top: 15px;
-  font-size: 25px;
-`
-
-const HomeGoals = styled.div`
-  color: grey;
-  ${(props:Props) => props.state === "WIN" &&
-          css`
-            color: red;
-          `} 
-`
-const AwayGoals = styled.div`
-  color: grey;
-  ${(props:Props) => props.state === "LOSE" &&
-          css`
-            color: red;
-          `}
-`
-
-const State = styled.div`
-  display: flex;
-  height: 35px;
-  font-size: 14px;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  ${(props:Props) => props.state === "BEFORE" &&
-          css`
-            background-color: dimgray;
-          `}
-
-  ${(props:Props) => props.state === "WIN" &&
-          css`
-            background-color: green;
-          `}
-
-  ${(props:Props) => props.state === "DRAW" &&
-          css`
-            background-color: rgba(189,195,199,0.3);
-          `}
-
-  ${(props:Props) => props.state === "LOSE" &&
-          css`
-            background-color: darkred;
-          `}
-`
-export const Select = styled.select`
-  padding: 5px;
-  width: 100%;
-  border: 1px solid;
-  border-radius: 4px;
-`
-
-const YearSelectBox = () => {
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value);
+interface MonthProps {
+    month: number,
+    setMonth: Dispatch<SetStateAction<number>>
+}
+const YearSelectBox = ({year, setYear} : YearProps) => {
+    const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        let value = +e.target.value;
+        setYear(value);
     };
 
     return (
-        <Select onChange={handleChange}>
+        <Select onChange={handleYearChange}>
             {YEARS.map((year) => (
                 <option key={year.key} value={year.key}>
                     {year.value}
@@ -173,13 +66,14 @@ const YearSelectBox = () => {
         </Select>
     );
 }
-const MonthSelectBox = () => {
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value);
+const MonthSelectBox = ({month, setMonth} : MonthProps) => {
+    const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        let value = +e.target.value;
+        setMonth(value);
     };
 
     return (
-        <Select onChange={handleChange}>
+        <Select onChange={handleMonthChange}>
             {MONTHS.map((m) => (
                 <option key={m.key} value={m.key}>
                     {m.value}
@@ -190,7 +84,7 @@ const MonthSelectBox = () => {
 }
 
 const MatchBox = (match:Match) => {
-    var moment = require('moment')
+    const moment = require('moment');
     const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
     return (
         <Box state={match.state}>
@@ -213,8 +107,15 @@ const MatchBox = (match:Match) => {
     );
 }
 const MatchDay = () => {
+    const moment = require('moment');
+    let todayYear : number = +moment().format('YYYY'); // 오늘 기준 연, 월
+    let todayMonth : number = +moment().format('DD');
+
+    const [year, setYear] = useState(todayYear);
+    const [month, setMonth] = useState(todayMonth);
+
     const api = process.env.REACT_APP_API_URL;
-    const URL = api + 'matchDay/all';
+    const URL = api + 'matchDay?year=' + year + '&month=' + month;
     const [matches, setMatch] = useState<[Match]>();
     const [error, setError] = useState(null);
 
@@ -237,13 +138,13 @@ const MatchDay = () => {
     if (error)
         return <div>에러 발생</div>
 
-    console.log(matches);
-
     return (
         <div>
             <h1>경기 일정</h1>
-            <YearSelectBox/>
-            <MonthSelectBox/>
+            <span>
+                <YearSelectBox year={year} setYear={setYear}/>
+                <MonthSelectBox month={month} setMonth={setMonth}/>
+            </span>
             {matches?.map((match) =>
             <MatchBox matchId={match.matchId}
                       matchDate={match.matchDate}
@@ -255,6 +156,7 @@ const MatchDay = () => {
             key={match.matchId}
             />
                 )}
+            <NoMatch length={matches ? matches.length : 0}>해당 월에는 경기가 존재하지 않습니다.</NoMatch>
         </div>
     );
 };
