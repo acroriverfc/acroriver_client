@@ -1,4 +1,4 @@
-import React, {ReactEventHandler, SyntheticEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {Link, useParams} from "react-router-dom";
 import axios from "axios";
@@ -61,10 +61,12 @@ const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event
     event.currentTarget.src = "/img/person.png";
 };
 
+
 const Card = () => {
     const {position} = useParams();
     const [players, setPlayers] = useState<[Player]>();
-    const URL = 'http://localhost:8080/player/position/' + position;
+    const api = process.env.REACT_APP_API_URL;
+    const URL = api + 'player/position/' + position;
     useEffect(() => {
 
         const fetchPlayers = async () => {

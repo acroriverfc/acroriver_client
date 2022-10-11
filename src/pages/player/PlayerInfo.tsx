@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import Players from "./Players";
 import Table from "../../components/Table";
+
 
 type Player = {
     playerName : string,
@@ -33,7 +33,8 @@ const Description = styled.div`
 `
 const PlayerInfo = () => {
     const {backNum} = useParams();
-    const URL = 'http://localhost:8080/player/' + backNum;
+    const api = process.env.REACT_APP_API_URL;
+    const URL = api + 'player/' + backNum;
     const [player, setPlayer] = useState<Player>();
     const [error, setError] = useState(null);
 

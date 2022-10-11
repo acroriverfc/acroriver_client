@@ -1,11 +1,13 @@
 import React from "react";
-import {Link} from "react-router-dom";
 
 const Home = () => {
     return (
         <div>
             <h1>홈</h1>
-            가장 먼저 보여지는 페이지.
+            <h1>Next Match</h1>
+            <h1>득점왕</h1>
+            <h1>도움왕</h1>
+            <h1>출장왕</h1>
         </div>
     )
 }
