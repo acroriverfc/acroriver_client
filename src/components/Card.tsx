@@ -80,8 +80,7 @@ const Card = () => {
         }
 
         fetchPlayers();
-
-    }, [position])
+    }, [URL])
 
     if (!players) {
         console.log("NULL")
