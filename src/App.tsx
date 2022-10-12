@@ -7,8 +7,7 @@ import Posts from "./pages/Posts";
 import Players from "./pages/player/Players";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import PlayerInfo from "./pages/player/PlayerInfo";
-import Stats from "./pages/Stats";
-
+import Rank from "./pages/Rank";
 
 const App : React.FC = () => {
     return (
@@ -16,7 +15,7 @@ const App : React.FC = () => {
             <HeaderContainer/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/stats" element={<Stats/>}/>
+                <Route path="/rank" element={<Rank/>}/>
                 <Route path="/matchDay" element={<MatchDay/>}/>
                 <Route path="/post" element={<Posts/>}/>
                 <Route path="/player/:position" element={<Players/>}/>

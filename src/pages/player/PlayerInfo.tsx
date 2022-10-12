@@ -3,21 +3,9 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Table from "../../components/Table";
+import {defaultImg} from "../../components/Card";
+import {Player} from "../../components/type";
 
-
-type Player = {
-    playerName : string,
-    birthDate : string,
-    height : number,
-    weight : number,
-    appearances : number,
-    goals : number,
-    assists : number,
-    position : string,
-    backNum : number,
-    imageUrl : string,
-    description : string,
-};
 const H1 = styled.h1
 `
   margin-left: 5px;
@@ -71,7 +59,7 @@ const PlayerInfo = () => {
                    assists={player.assists}
                    position={player.position}
                    backNum={player.backNum}
-                   imageUrl={player.imageUrl}/>
+                   imageUrl={player.imageUrl ? player.imageUrl : defaultImg}/>
             <H1>선수 소개</H1>
             <Description>{player.description}</Description>
         </Div>

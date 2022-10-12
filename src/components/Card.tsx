@@ -56,9 +56,10 @@ const CardImg = styled.img`
   max-height: 100%;
 `
 
+export const defaultImg = "/img/person.png";
 
 const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = "/img/person.png";
+    event.currentTarget.src = defaultImg
 };
 
 
@@ -94,7 +95,7 @@ const Card = () => {
                 <CardContainer key={player.backNum}>
                     <PlayerCard to={`/player/backNum/${player.backNum}`}>
                         <CardImg
-                            src={player.imageUrl}
+                            src={player.imageUrl ? player.imageUrl : defaultImg}
                             onError={imageOnErrorHandler}
                             alt='player image'
                         />

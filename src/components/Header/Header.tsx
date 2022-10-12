@@ -50,7 +50,7 @@ const Header = () => {
                 </HeaderLink>
             </div>
             <div className="menu">
-                <MenuItem to='/stats'>기록실</MenuItem>
+                <MenuItem to='/rank'>랭킹</MenuItem>
                 <MenuItem to='/matchDay'>경기 일정</MenuItem>
                 <MenuItem to='/player/fw'>선수단</MenuItem>
                 <MenuItem to='/post'>게시판</MenuItem>

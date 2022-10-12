@@ -57,7 +57,8 @@ const YearSelectBox = ({year, setYear} : YearProps) => {
     };
 
     return (
-        <Select onChange={handleYearChange}>
+        <Select onChange={handleYearChange}
+        defaultValue={year}>
             {YEARS.map((year) => (
                 <option key={year.key} value={year.key}>
                     {year.value}
@@ -73,7 +74,8 @@ const MonthSelectBox = ({month, setMonth} : MonthProps) => {
     };
 
     return (
-        <Select onChange={handleMonthChange}>
+        <Select onChange={handleMonthChange}
+        defaultValue={month}>
             {MONTHS.map((m) => (
                 <option key={m.key} value={m.key}>
                     {m.value}
@@ -106,10 +108,19 @@ const MatchBox = (match:Match) => {
         </Box>
     );
 }
+
+const Header = styled.div`
+  font-family: "Noto Sans Bold";
+  font-size: 25px;
+  text-align: center;
+  width: 100%;
+  padding: 20px 0px;
+`
+
 const MatchDay = () => {
     const moment = require('moment');
     let todayYear : number = +moment().format('YYYY'); // 오늘 기준 연, 월
-    let todayMonth : number = +moment().format('DD');
+    let todayMonth : number = +moment().format('MM');
 
     const [year, setYear] = useState(todayYear);
     const [month, setMonth] = useState(todayMonth);
@@ -140,7 +151,7 @@ const MatchDay = () => {
 
     return (
         <div>
-            <h1>경기 일정</h1>
+            <Header>아크로리버 FC 경기 일정</Header>
             <span>
                 <YearSelectBox year={year} setYear={setYear}/>
                 <MonthSelectBox month={month} setMonth={setMonth}/>
