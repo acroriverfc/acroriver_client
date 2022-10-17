@@ -85,7 +85,7 @@ const MonthSelectBox = ({month, setMonth} : MonthProps) => {
     );
 }
 
-const MatchBox = (match:Match) => {
+export const MatchBox = (match:Match) => {
     const moment = require('moment');
     const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
     return (
