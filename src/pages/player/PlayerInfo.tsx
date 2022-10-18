@@ -40,7 +40,7 @@ const PlayerInfo = () => {
         };
 
         fetchPlayers();
-    }, []);
+    }, [URL]);
 
     if (error)
         return <div>에러 발생</div>;
