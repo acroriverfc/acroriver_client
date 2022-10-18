@@ -100,7 +100,6 @@ const Home = () => {
                     {loadingMatch ? "" :
                         <NoMatch length={match ? 1 : 0}>다음 경기가 존재하지 않습니다.</NoMatch>}
             </NextMatchContainer>
-            <Next>주요 부문 순위</Next>
             {goalKing ? <GoalRanks players={goalKing}/> : ""}
             {assistKing ? <AssistsRank players={assistKing}/> : ""}
             {appKing ? <AppearanceRank players={appKing}/> : ""}

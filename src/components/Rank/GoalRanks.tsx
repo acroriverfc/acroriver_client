@@ -1,46 +1,12 @@
 import React, {useRef} from "react";
 import {Player} from "../type";
 import styled from "styled-components";
+import {RankTd, StatTd, Table, Td, Th, TopTr} from "./Rankcss";
 
 interface Props {
     players : Player[]
 }
 
-const Table = styled.table`
-  font-family: "Noto Sans Regular";
-  text-align: center;
-  border-collapse: collapse;
-  margin: ㄹ20px 10px 0px 10px;
-  width: 95%;
-`
-
-const RankTd = styled.td`
-  width: 20%;
-  border: 1px solid;
-  height: 30px;
-`
-const Th = styled.th`
-  height: 40px;
-  font-size: 18px;
-  border: 1px solid;
-`
-
-const Td = styled.td`
-  height: 35px;
-  border: 1px solid;
-`
-
-const StatTd = styled.td
-    `
-  border: 1px solid;
-  width: 25%;
-`
-
-
-const TopTr = styled.tr`
-  background-color: antiquewhite;
-  font-weight: bold;
-`
 const GoalRanks = (props:Props) => {
     const rank = {current : 1};
     const goal = {current : 0};
