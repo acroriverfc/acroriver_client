@@ -5,8 +5,20 @@ import GoalRanks from "../components/Rank/GoalRanks";
 import AssistsRank from "../components/Rank/AssistsRank";
 import AppearanceRank from "../components/Rank/AppearanceRank";
 import {MatchBox} from "./MatchDay";
-import {NoMatch} from "../components/MatchInfo";
-import styled from "styled-components";
+import {
+    Away, AwayGoals,
+    Box,
+    Date,
+    HomeGoals,
+    Left,
+    MatchInfo,
+    NoMatch,
+    Right,
+    ScoreContainer,
+    Stadium, State
+} from "../components/MatchInfo";
+import styled, {css} from "styled-components";
+import moment from "moment";
 
 type Match = {
     matchId : number,
@@ -18,16 +30,22 @@ type Match = {
     awayGoals: number,
 }
 
+const HomeBox = styled.div`
+  height: 120px;
+  border: 1px solid black;
+  margin: 20px 10px;
+  width: 95%;
+`
+
 const NextMatchContainer = styled.div`
   display: block;
   border: 1px solid;
-  height: 200px;
-  padding-bottom: 30px;
-  margin: 10px 10px
+  max-height: 200px;
+  margin: 10px 10px;
 `
 const Next = styled.div`
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,6 +53,42 @@ const Next = styled.div`
   height: 40px;
   font-family: "Noto Sans Bold";
 `
+
+const HomeLeft = styled.li`
+  margin-top: 15px;
+  text-align: center;
+  list-style: none;
+  width: 100%;
+`
+
+const HomeRight = styled.div`
+  margin-top: 15px;
+  display: flex;
+  width: 100%;
+`
+
+
+const HomeMatchBox = (match:Match) => {
+    const moment = require('moment');
+    const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
+    return (
+        <HomeBox>
+            <MatchInfo>
+                <HomeLeft>
+                    <Date> {date} </Date>
+                    <Stadium> {match.stadium} </Stadium>
+                </HomeLeft>
+                <HomeRight>
+                    <Away> vs {match.awayName} </Away>
+                </HomeRight>
+            </MatchInfo>
+            <State state={match.state}>경기 전</State>
+        </HomeBox>
+
+    );
+}
+
+
 const Home = () => {
     const api = process.env.REACT_APP_API_URL;
     const URL = api + 'player/rank';
@@ -90,7 +144,7 @@ const Home = () => {
         <div>
             <NextMatchContainer>
                 <Next>다음 경기</Next>
-                    {match ? <MatchBox matchId={match.matchId}
+                    {match ? <HomeMatchBox matchId={match.matchId}
                                        matchDate={match.matchDate}
                                        awayName={match.awayName}
                                        stadium={match.stadium}

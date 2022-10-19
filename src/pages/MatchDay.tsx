@@ -104,7 +104,7 @@ export const MatchBox = (match:Match) => {
                     </ScoreContainer>
                 </Right>
             </MatchInfo>
-            <State state={match.state}>{match.state}</State>
+            <State state={match.state}>{match.state === "BEFORE" ? match.state : "상세 기록 확인"} </State>
         </Box>
     );
 }

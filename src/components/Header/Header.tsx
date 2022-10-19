@@ -35,9 +35,16 @@ const StyledLink = styled(Link)`
     text-decoration: none;
   }
 `
-
+const A = styled.a`
+  display: flex;
+  transform: translate(30px);
+`
 const HeaderImg = styled.img`
   height: 3rem;
+`
+
+const Instagram = styled.img`
+  height: 2rem;
 `
 const Header = () => {
 
@@ -48,6 +55,9 @@ const Header = () => {
                     <HeaderImg src='/img/acroriver.png'/>
                     Acroriver FC
                 </HeaderLink>
+                <A href='https://www.instagram.com/acroriver_official/'>
+                    <Instagram src='/img/instagram_logo.svg'/>
+                </A>
             </div>
             <div className="menu">
                 <MenuItem to='/rank'>랭킹</MenuItem>

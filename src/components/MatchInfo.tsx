@@ -97,24 +97,11 @@ export const State = styled.div`
   justify-content: center;
   align-items: center;
   color: white;
+  font-weight: bold;
+  background-color: #DAA520;
   ${(props:Props) => props.state === "BEFORE" &&
     css`
             background-color: dimgray;
-          `}
-
-  ${(props:Props) => props.state === "WIN" &&
-    css`
-            background-color: green;
-          `}
-
-  ${(props:Props) => props.state === "DRAW" &&
-    css`
-            background-color: rgba(189,195,199,0.3);
-          `}
-
-  ${(props:Props) => props.state === "LOSE" &&
-    css`
-            background-color: darkred;
           `}
 `
 export const Select = styled.select`
