@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Table from "../../components/Table";
 import {defaultImg} from "../../components/Card";
 import {Player} from "../../components/type";
+import {useDispatch} from "react-redux";
+import {playerAction} from "../../redux/store/modules/player";
 
 const H1 = styled.h1
 `
@@ -17,7 +19,19 @@ const Div = styled.div`
 `
 
 const Description = styled.div`
-    margin: 5px 10px;
+  margin: 5px 10px;
+  white-space: pre-line;
+`
+
+export const EditLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  &:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
 `
 const PlayerInfo = () => {
     const {backNum} = useParams();
@@ -25,21 +39,16 @@ const PlayerInfo = () => {
     const URL = api + 'player/' + backNum;
     const [player, setPlayer] = useState<Player>();
     const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchPlayers = async () => {
-            try {
-                setError(null);
-                const response = await axios.get(
-                    URL
-                );
-                setPlayer(response.data);
-            } catch (error) {
-                console.log(error);
-            }
+            const response = await axios.get(URL);
+            setPlayer(response.data);
+            dispatch(playerAction.setPlayer(response.data));
         };
 
-        fetchPlayers();
+        fetchPlayers().then(() => setError(null));
     }, [URL]);
 
     if (error)
@@ -59,9 +68,15 @@ const PlayerInfo = () => {
                    assists={player.assists}
                    position={player.position}
                    backNum={player.backNum}
-                   imageUrl={player.imageUrl ? player.imageUrl : defaultImg}/>
+                   imageUrl={player.imageUrl ? player.imageUrl : defaultImg}
+                   description={player.description}/>
             <H1>선수 소개</H1>
             <Description>{player.description}</Description>
+            <button>
+                <EditLink to={`/player/edit/${player.backNum}`}>
+                수정하기
+                </EditLink>
+            </button>
         </Div>
     );
 };

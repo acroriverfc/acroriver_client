@@ -1,18 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-type Player = {
-    playerName : string,
-    birthDate : string,
-    height : number,
-    weight : number,
-    appearances : number,
-    goals : number,
-    assists : number,
-    position : string,
-    backNum : number,
-    imageUrl : string,
-};
+import {Player} from "./type";
 
 const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = "/img/person.png";

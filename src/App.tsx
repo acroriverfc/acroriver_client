@@ -8,6 +8,8 @@ import Players from "./pages/player/Players";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import PlayerInfo from "./pages/player/PlayerInfo";
 import Rank from "./pages/Rank";
+import EditPlayer from "./pages/player/EditPlayer";
+import {Player} from "./components/type";
 
 const App : React.FC = () => {
     return (
@@ -20,6 +22,7 @@ const App : React.FC = () => {
                 <Route path="/post" element={<Posts/>}/>
                 <Route path="/player/:position" element={<Players/>}/>
                 <Route path="/player/backNum/:backNum" element={<PlayerInfo/>}/>
+                <Route path="/player/edit/:backNum" element={<EditPlayer/>}/>
             </Routes>
         </div>
     );
