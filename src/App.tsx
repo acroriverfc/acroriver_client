@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Route, Routes} from "react-router-dom";
 import Home from './pages/Home';
 import MatchDay from "./pages/MatchDay";
-import "./components/Header/Header.css"
+import "./components/css/Header.css"
 import Posts from "./pages/Posts";
 import Players from "./pages/player/Players";
 import HeaderContainer from "./components/Header/HeaderContainer";

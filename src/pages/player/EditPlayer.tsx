@@ -1,21 +1,89 @@
-import React, {useCallback, useState} from "react";
+import React, {Dispatch, SetStateAction, useCallback, useState} from "react";
 import {Form, Link, useNavigate, useParams} from "react-router-dom";
-import {Player} from "../../components/type";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store/modules";
 import styled from "styled-components";
-import {current} from "@reduxjs/toolkit";
-import {EditLink} from "./PlayerInfo";
 import axios from "axios";
 import {playerAction} from "../../redux/store/modules/player";
-import {parse} from "url";
-import {now} from "moment";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../components/css/DatePicker.css"
 
+// CSS Modules, react-datepicker-cssmodules.css
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
+interface Pos {
+    key: string,
+    value: string
+}
+
+interface PosProps {
+    position: string,
+    setPosition: Dispatch<SetStateAction<string>>
+}
+
+const PositionSelectBox = ({position, setPosition} : PosProps) => {
+    const handlePositionChange = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        let value = e.target.value;
+        setPosition(value);
+    }
+
+    let POSITION : Pos[] = [
+        {value: "FW", key : "FW"},
+        {value: "MF", key : "MF"},
+        {value: "DF", key : "DF"},
+        {value: "GK", key : "GK"}
+    ]
+    return (
+        <CustomSelect onChange={handlePositionChange}
+                defaultValue={position}>
+            {POSITION.map((p) => (
+                <option key={p.key} value={p.value}>
+                    {p.value}
+                </option>
+            ))}
+        </CustomSelect>
+    )
+}
+
+const Div = styled.div`
+  display: block;
+  height: 30px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  font-family: "Noto Sans Regular";
+  align-items: center;
+`
+
+const H1 = styled.div`
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-family: "Noto Sans Bold";
+  font-size: 30px;
+`
+const CustomSelect = styled.select`
+  padding: 5px;
+  width: 20%;
+  height: 25px;
+  margin-left: 10px;
+  border: 1px solid;
+  border-radius: 4px;
+`
+
+const BirthInput = styled.input`
+  all: unset;
+  width: 100px;
+  margin-left: 5px;
+  border: 1.5px solid #c6c8cb;
+  text-align: right;
+`;
 const Input = styled.input`
   all: unset;
-  width: 50px;
+  margin-left: 5px;
+  width: 60px;
   border: 1.5px solid #c6c8cb;
+  text-align: right;
 `;
 
 const TextArea = styled.textarea`
@@ -23,6 +91,29 @@ const TextArea = styled.textarea`
   margin: 0px 10px;
   height: 200px;
 `
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+  font-family: "Noto Sans Regular";
+`
+const Button = styled.button`
+  background-color: dodgerblue;
+  width : 100px;
+  height: 40px;
+  margin-right: 5px;
+  border: 1px solid whitesmoke;
+`
+const CancelButton = styled.button`
+  background-color: red;
+  width : 100px;
+  height: 40px;
+  margin-left: 5px;
+  border: 1px solid whitesmoke;
+  font-family: "Noto Sans Regular";
+`
+
 const EditPlayer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -76,15 +167,31 @@ const EditPlayer = () => {
         }
     }, [data]);
 
+    const handleCancel = useCallback(() => {
+        navigate(`/player/backNum/${backNum}`)
+    }, []);
+
+    // Javascript Date 를 Java Date 형식으로 맞춰주는 함수
+    const DateToLocalDate = (date:Date) => {
+
+        const leftPad = (value:number) => {
+            if (value >= 10)
+                return value;
+
+            return `0${value}`;
+        }
+        const year = date.getFullYear();
+        const month = leftPad(date.getMonth() + 1);
+        const day = leftPad(date.getDate());
+
+        return [year, month, day].join('-');
+    }
+
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setName(e.target.value);
     }
 
-    const onBirthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setBirthDate(e.target.value);
-    }
     const onHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const number = e.target.value.replace(/[^0-9]/g, '');
@@ -123,49 +230,62 @@ const EditPlayer = () => {
 
     return (
         <div>
-            <h1>수정 페이지</h1>
-            <div>
+            <H1>수정 페이지</H1>
+            <Div>
                 이름 : <Input type='text' name='name' value={name} onChange={onNameChange}/>
+            </Div>
+            <div className='custom-div'>
+                생년월일 :
+                <div className="custom-react_datepicker__wrapper">
+                <ReactDatePicker
+                id="top_date_picker"
+                className="date_picker"
+                dateFormat="yyyy-MM-dd"
+                onChange={(date:Date) => setBirthDate(DateToLocalDate(date))}
+                selected={new Date(birthDate)}
+                closeOnScroll={true}
+                customInput={<BirthInput type='text' name='date' value={birthDate}/>}/>
+                </div>
             </div>
-            <div>
-                생년월일 : <input type='date' name='birth' value={birthDate} onChange={onBirthChange}/>
-            </div>
-            <div>
+            <Div>
                 키 : <Input type='number'
                            min="1"
                            max="250"
                            name='height'
                            value={height}
                            onChange={onHeightChange}/>cm
-            </div>
-            <div>
+            </Div>
+            <Div>
                 몸무게 : <Input type='number'
                            min="1"
                            max="250"
                            name='weight'
                            value={weight}
                            onChange={onWeightChange}/>kg
-            </div>
-            <div>
-                포지션 : {position}
-            </div>
-            <div>
+            </Div>
+            <Div>
+                포지션 : <PositionSelectBox position={position} setPosition={setPosition}/>
+            </Div>
+            <Div>
                 등번호 : <Input type='number'
                              min="1"
                              max="99"
                              name='backNum'
                              value={backNum}
-                             onChange={onBackNumChange}/>
-            </div>
+                             onChange={onBackNumChange}/>번
+            </Div>
             <div>
-                <h2>선수 설명</h2>
+                <h2>선수 소개</h2>
                 <TextArea defaultValue={description} onChange={onDescriptionChange}/>
             </div>
-            <div>
-                <button onClick={handleSubmit}>
+            <ButtonContainer>
+                <Button onClick={handleSubmit}>
                     수정 완료
-                </button>
-            </div>
+                </Button>
+                <CancelButton onClick={handleCancel}>
+                    취소
+                </CancelButton>
+            </ButtonContainer>
         </div>
     )
 }

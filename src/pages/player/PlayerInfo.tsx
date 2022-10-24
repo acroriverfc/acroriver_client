@@ -7,11 +7,11 @@ import {defaultImg} from "../../components/Card";
 import {Player} from "../../components/type";
 import {useDispatch} from "react-redux";
 import {playerAction} from "../../redux/store/modules/player";
-
-const H1 = styled.h1
+const H1 = styled.div
 `
-  margin-left: 5px;
+  margin-left: 10px;
   font-family: "Noto Sans Bold";
+  font-size: 30px;
 `
 
 const Div = styled.div`
@@ -19,13 +19,26 @@ const Div = styled.div`
 `
 
 const Description = styled.div`
-  margin: 5px 10px;
+  margin: 10px 15px;
   white-space: pre-line;
+`
+const Button = styled.button`
+  font-family: "Noto Sans Regular";
+  width: 60px;
+  height: 20px;
+  font-size: 10px;
+  margin: 5px 0px 0px 5px;
+  border: none;
+  background-color: white;
+`
+
+const EditContainer = styled.div`
+  display: flex;
 `
 
 export const EditLink = styled(Link)`
-  color: black;
   text-decoration: none;
+  color: dodgerblue;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -70,13 +83,15 @@ const PlayerInfo = () => {
                    backNum={player.backNum}
                    imageUrl={player.imageUrl ? player.imageUrl : defaultImg}
                    description={player.description}/>
-            <H1>선수 소개</H1>
+            <EditContainer>
+                <H1>선수 소개</H1>
+                <Button>
+                    <EditLink to={`/player/edit/${player.backNum}`}>
+                        [수정하기]
+                    </EditLink>
+                </Button>
+            </EditContainer>
             <Description>{player.description}</Description>
-            <button>
-                <EditLink to={`/player/edit/${player.backNum}`}>
-                수정하기
-                </EditLink>
-            </button>
         </Div>
     );
 };

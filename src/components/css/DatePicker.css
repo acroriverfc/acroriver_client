@@ -1,0 +1,16 @@
+
+.custom-react_datepicker__wrapper{
+    display: flex;
+    width: 100px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.custom-div{
+    display: flex;
+    height: 30px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-family: "Noto Sans Regular";
+    align-items: center;
+}
