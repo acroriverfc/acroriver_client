@@ -154,7 +154,7 @@ const EditPlayer = () => {
                     console.log("DISPATCH");
                     console.log(response);
                     dispatch(playerAction.setPlayer(data));
-                    if (response.status === 202) {
+                    if (response.status === 200) {
                         navigate(`/player/backNum/${backNum}`)
                     }
                 }).catch(err => {

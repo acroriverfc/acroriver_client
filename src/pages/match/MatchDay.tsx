@@ -3,16 +3,20 @@ import styled, {css} from "styled-components";
 import axios from "axios";
 import 'moment/locale/ko'
 
-import "../components/MatchInfo";
+import "../../components/MatchInfo";
 import {
     State, Box, Left, Date, Away, AwayGoals,
     HomeGoals, Right, Stadium, ScoreContainer, MatchInfo, Select, NoMatch
-} from "../components/MatchInfo";
+} from "../../components/MatchInfo";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {matchAction} from "../../redux/store/modules/match";
 interface select {
     value : string;
     key : string;
 }
-type Match = {
+
+export type Match = {
     matchId : number,
     matchDate: string,
     awayName : string,
@@ -21,6 +25,7 @@ type Match = {
     goals: number,
     awayGoals: number,
 }
+
 const MONTHS : select[] = [
     {value: "1월", key: "1"},
     {value: "2월", key: "2"},
@@ -86,8 +91,16 @@ const MonthSelectBox = ({month, setMonth} : MonthProps) => {
 }
 
 export const MatchBox = (match:Match) => {
+    const navigate = useNavigate();
     const moment = require('moment');
     const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
+    const dispatch = useDispatch();
+
+    const onClickState = () => {
+        dispatch(matchAction.setMatch(match));
+        navigate(`/matchDay/${match.matchId}`, {state : match})
+    }
+
     return (
         <Box state={match.state}>
             <MatchInfo>
@@ -104,7 +117,13 @@ export const MatchBox = (match:Match) => {
                     </ScoreContainer>
                 </Right>
             </MatchInfo>
-            <State state={match.state}>{match.state === "BEFORE" ? match.state : "상세 기록 확인"} </State>
+            <State state={match.state}>
+                {match.state === "BEFORE" ? match.state :
+                    <div onClick={onClickState}>
+                        상세 기록 확인
+                    </div>
+                }
+            </State>
         </Box>
     );
 }

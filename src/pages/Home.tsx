@@ -4,7 +4,7 @@ import axios from "axios";
 import GoalRanks from "../components/Rank/GoalRanks";
 import AssistsRank from "../components/Rank/AssistsRank";
 import AppearanceRank from "../components/Rank/AppearanceRank";
-import {MatchBox} from "./MatchDay";
+import {MatchBox} from "./match/MatchDay";
 import {
     Away, AwayGoals,
     Box,
