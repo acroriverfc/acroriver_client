@@ -3,7 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 export const matchSlice = createSlice({
         name: "match",
         initialState: {
-            matchInfo: {}
+            matchInfo : {}
         },
         reducers: {
             setMatch: (state, action) => {

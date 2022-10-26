@@ -8,7 +8,7 @@ import {MatchBox} from "./match/MatchDay";
 import {
     Away, AwayGoals,
     Box,
-    Date,
+    MatchDate,
     HomeGoals,
     Left,
     MatchInfo,
@@ -70,12 +70,12 @@ const HomeRight = styled.div`
 
 const HomeMatchBox = (match:Match) => {
     const moment = require('moment');
-    const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
+    const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) HH:mm')
     return (
         <HomeBox>
             <MatchInfo>
                 <HomeLeft>
-                    <Date> {date} </Date>
+                    <MatchDate> {date} </MatchDate>
                     <Stadium> {match.stadium} </Stadium>
                 </HomeLeft>
                 <HomeRight>

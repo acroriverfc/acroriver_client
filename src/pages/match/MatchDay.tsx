@@ -5,26 +5,19 @@ import 'moment/locale/ko'
 
 import "../../components/MatchInfo";
 import {
-    State, Box, Left, Date, Away, AwayGoals,
+    State, Box, Left, MatchDate, Away, AwayGoals,
     HomeGoals, Right, Stadium, ScoreContainer, MatchInfo, Select, NoMatch
 } from "../../components/MatchInfo";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {matchAction} from "../../redux/store/modules/match";
+import {Match} from "../../components/type";
+import MatchDayModal from "../../components/MatchDayModal";
 interface select {
     value : string;
     key : string;
 }
 
-export type Match = {
-    matchId : number,
-    matchDate: string,
-    awayName : string,
-    stadium: string,
-    state: string,
-    goals: number,
-    awayGoals: number,
-}
 
 const MONTHS : select[] = [
     {value: "1월", key: "1"},
@@ -93,7 +86,7 @@ const MonthSelectBox = ({month, setMonth} : MonthProps) => {
 export const MatchBox = (match:Match) => {
     const navigate = useNavigate();
     const moment = require('moment');
-    const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) hh:mm')
+    const date = moment(match.matchDate).format('YYYY.MM.DD(ddd) HH:mm')
     const dispatch = useDispatch();
 
     const onClickState = () => {
@@ -105,7 +98,7 @@ export const MatchBox = (match:Match) => {
         <Box state={match.state}>
             <MatchInfo>
                 <Left>
-                    <Date> {date} </Date>
+                    <MatchDate> {date} </MatchDate>
                     <Stadium> {match.stadium} </Stadium>
                 </Left>
                 <Right>
@@ -144,6 +137,14 @@ const MatchDay = () => {
     const [year, setYear] = useState(todayYear);
     const [month, setMonth] = useState(todayMonth);
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+        setModalOpen(true);
+    }
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
     const api = process.env.REACT_APP_API_URL;
     const URL = api + 'matchDay?year=' + year + '&month=' + month;
     const [matches, setMatch] = useState<[Match]>();
@@ -170,7 +171,13 @@ const MatchDay = () => {
 
     return (
         <div>
-            <Header>아크로리버 FC 경기 일정</Header>
+            <Header>
+                아크로리버 FC 경기 일정
+                <button onClick={openModal}>
+                    경기 추가
+                </button>
+            </Header>
+            <MatchDayModal open={modalOpen} close={closeModal} header={"경기 추가"}/>
             <span>
                 <YearSelectBox year={year} setYear={setYear}/>
                 <MonthSelectBox month={month} setMonth={setMonth}/>

@@ -46,7 +46,7 @@ export const Right = styled.div`
   width: 100%;
 `
 
-export const Date = styled.div`
+export const MatchDate = styled.div`
   padding-top: 5px;
   font-family: "Noto Sans Bold";
   grid-row: 1/3;

@@ -11,3 +11,13 @@ export type Player = {
     imageUrl : string,
     description : string,
 };
+
+export type Match = {
+    matchId : number,
+    matchDate: string,
+    awayName : string,
+    stadium: string,
+    state: string,
+    goals: number,
+    awayGoals: number,
+}

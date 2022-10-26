@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
-import {Match} from "./MatchDay";
-import {Player} from "../../components/type";
+import {Match, Player} from "../../components/type";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store/modules";
 
