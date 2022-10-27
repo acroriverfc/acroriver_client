@@ -82,7 +82,7 @@ const PlayerInfo = () => {
                    position={player.position}
                    backNum={player.backNum}
                    imageUrl={player.imageUrl ? player.imageUrl : defaultImg}
-                   description={player.description}/>
+                   description={player.description} playerId={player.playerId}/>
             <EditContainer>
                 <H1>선수 소개</H1>
                 <Button>

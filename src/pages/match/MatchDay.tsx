@@ -111,11 +111,9 @@ export const MatchBox = (match:Match) => {
                 </Right>
             </MatchInfo>
             <State state={match.state}>
-                {match.state === "BEFORE" ? match.state :
-                    <div onClick={onClickState}>
-                        상세 기록 확인
-                    </div>
-                }
+                <div onClick={onClickState}>
+                    {match.state === "BEFORE" ? match.state : "상세 기록 확인"}
+                </div>
             </State>
         </Box>
     );
@@ -151,7 +149,7 @@ const MatchDay = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchMatchs = async () => {
+        const fetchMatches = async () => {
             try {
                 setError(null);
                 const response = await axios.get(
@@ -163,8 +161,8 @@ const MatchDay = () => {
             }
         };
 
-        fetchMatchs();
-    }, [URL]);
+        fetchMatches();
+    }, [URL, modalOpen]);
 
     if (error)
         return <div>에러 발생</div>

@@ -36,6 +36,7 @@ const MatchDayModal = (props : Props) => {
     const [awayName, setAwayName] = useState("");
     const [stadium, setStadium] = useState("");
     const [matchDate, setMatchDate] = useState(DateToLocalDate(new Date()));
+    const [validate, setValidate] = useState(false);
 
     let handleColor = (time : Date) => {
         console.log(matchDate);
@@ -44,11 +45,19 @@ const MatchDayModal = (props : Props) => {
     const onAwayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setAwayName(e.target.value);
+        if(awayName !== "" && stadium !== "")
+            setValidate(true);
+        else
+            setValidate(false);
     }
 
     const onStadiumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setStadium(e.target.value);
+        if(awayName !== "" && stadium !== "")
+            setValidate(true);
+        else
+            setValidate(false);
     }
 
     const data = {
@@ -67,8 +76,7 @@ const MatchDayModal = (props : Props) => {
             }
             await axios.post(api, data, contentType)
                 .then(response => {
-                    console.log(response.data);
-                    if (response.status === 201)
+                    if (response.status === 201 && validate)
                     {
                         console.log("SUCCESS");
                         props.close();
@@ -97,7 +105,7 @@ const MatchDayModal = (props : Props) => {
                         구장 : <input type='text' name='stadium' value={stadium} onChange={onStadiumChange}/>
                     </div>
                     <div>
-                        경기 일정 : <ReactDatePicker showTimeSelect dateFormat="yyyy/MM/dd" selected={new Date(matchDate)}
+                        경기 일정 : <ReactDatePicker showTimeSelect dateFormat="yyyy/MM/dd hh:mm aa" selected={new Date(matchDate)}
                                                  onChange={(date:Date) => {
                                                      if (date > currentDate)
                                                         setMatchDate(DateToLocalDate(date))
